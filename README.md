@@ -40,7 +40,7 @@ The framework is evaluated under **scenario-disjoint generalization**, meaning t
 The controlled experiments use a representative high-dimensional geometry of the **Lower Piura River Basin (Peru)**.
 
 <p align="center">
-  <img src="images/figure1_optimized_scientific.png" width="800">
+  <img src="images/study_area.png" width="800">
 </p>
 
 *Figure 1. Computational domain used for controlled hydrodynamic experiments. The geometry includes the main channel, urban center, and floodplain connectivity zones.*
@@ -57,7 +57,7 @@ The baseline model maps a **36-sample discharge window** to:
 - Binary inundation (wet/dry) mask  
 
 <p align="center">
-  <img src="images/figure2_moe_final_elsevier.png" width="900">
+  <img src="images/figure1_optimized_scientific.png" width="900">
 </p>
 
 *Figure 2. Baseline single-expert CNN surrogate.*
@@ -82,7 +82,7 @@ This expert architecture is reused as the building block of the MoE framework.
 To address discontinuities in flood dynamics, we introduce a **regime-aware MoE architecture**.
 
 <p align="center">
-  <img src="images/figure3_moe_final_elsevier.png" width="800">
+  <img src="images/figure2_moe_final_elsevier.png" width="800">
 </p>
 
 *Figure 3. Proposed Mixture-of-Experts surrogate with learned regime gating.*
@@ -116,9 +116,9 @@ Each expert:
 
 Final prediction:
 
-\[
+$$
 \hat{y} = \sum_{k=1}^{K} \pi_k f_k(x)
-\]
+$$
 
 This conditional blending allows:
 
@@ -134,12 +134,9 @@ To prevent physically inconsistent predictions, we embed an **integral mass cons
 
 ### Total Loss
 
-\[
-\mathcal{L}_{total} =
-\mathcal{L}_{depth} +
-\mathcal{L}_{mask} +
-\lambda_{phys}\mathcal{L}_{phys}
-\]
+* **$\mathcal{L}_{depth}$**: Mean Absolute Error of the water depth field.
+* **$\mathcal{L}_{mask}$**: Binary Cross-Entropy for the inundation footprint.
+* **$\lambda_{phys}\mathcal{L}_{phys}$**: Physics-informed penalty term (PINN) that enforces mass conservation.
 
 ### Volume Computation
 
@@ -257,25 +254,8 @@ pip install -r requirements.txt
 ✔ Embeds mass conservation via physics-informed regularization
 ✔ Validates under scenario-disjoint generalization
 
-## Citation
-
-If you use this code or methodology, please cite:
-
-Zevallos, J., Gutierrez, R. R., Chávarri-Velarde, E., & Lavado, W. (2024).
-Structural investigation of regime-dependent surrogate representations
-under controlled hydrodynamic conditions: A Mixture-of-Experts approach.
-Environmental Modelling & Software (Submitted).
 
 ## License
 
 Specify your intended license here (e.g., MIT, GPL-3.0).
 
-
----
-
-If you'd like, I can now:
-
-- Make a **minimal academic version** (cleaner, shorter, journal style)  
-- Add **badges (DOI, license, Python version)**  
-- Add a **Reproducibility Checklist section**  
-- Or convert it into a **Zenodo-ready release README**
