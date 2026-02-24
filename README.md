@@ -138,19 +138,23 @@ To prevent physically inconsistent predictions, we embed an **integral mass cons
 * **$\mathcal{L}_{mask}$**: Binary Cross-Entropy for the inundation footprint.
 * **$\lambda_{phys}\mathcal{L}_{phys}$**: Physics-informed penalty term (PINN) that enforces mass conservation.
 
-### Volume Computation
+### Volume Computation & Physical Consistency
+
+Physical consistency is enforced by comparing the change in predicted stored volume $\hat{V}_t$ against the net flux provided by the input hydrograph, following the volume-consistency regularization approach of Donnelly et al. (2024):
 
 $$
-\hat{V}_t = \sum_j \hat{h}_{t,j} \Delta x \Delta y
+\hat{V}_t = \sum_{j=1}^{N} \hat{h}_{t,j} \Delta x \Delta y
 $$
 
-The physics residual penalizes deviations from the continuity equation, ensuring:
+The physics loss $\mathcal{L}_{\text{phys}}$ utilizes rectified residuals (ReLU-based) to ensure the predicted volume remains consistent with the cumulative inflow $Q$ and neighboring time-step volumes $V_{t-1}$ and $V_{t+1}$. By normalizing the volume residual by the total domain area $A$, the loss is expressed as:
 
-- Reduced artificial volume drift  
-- Improved mass residual  
-- Hydrologically plausible flood evolution  
+$$
+\mathcal{L}_{\text{phys}} = \left( \frac{\max(0, \hat{V}_t - V_{t-1} - \Delta t Q_t)}{A} \right)^2 + \left( \frac{\max(0, V_{t+1} - \hat{V}_t - \Delta t Q_{t+1})}{A} \right)^2
+$$
 
----
+This constraint acts as a regularizer, guiding the experts toward hydrologically plausible spatial distributions even when training data is sparse or noisy. This results in:
+* **Reduced artificial volume drift** * **Improved mass residuals**
+* **Hydrologically plausible flood evolution**
 
 ## Experimental Design
 
