@@ -219,18 +219,6 @@ Key finding:
 
 ---
 
-## Repository Structure
-HydroMoE-Surrogate/
-│
-├── ablation_models.ipynb
-├── images/
-│ ├── figure1_optimized_scientific.png
-│ ├── figure2_moe_final_elsevier.png
-│ ├── figure3_moe_final_elsevier.png
-│
-└── README.md
-
-
 ---
 
 ## Installation
