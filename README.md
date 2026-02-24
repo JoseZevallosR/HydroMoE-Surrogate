@@ -95,9 +95,9 @@ To address discontinuities in flood dynamics, we introduce a **regime-aware MoE 
 - Encodes temporal discharge sequence  
 - Outputs mixing weights:
 
-\[
+$$
 \pi = \text{Gate}(x), \quad \sum_{k=1}^{K} \pi_k = 1
-\]
+$$
 
 The gate dynamically partitions discharge regimes (rising limb, peak, recession).
 
@@ -140,9 +140,9 @@ To prevent physically inconsistent predictions, we embed an **integral mass cons
 
 ### Volume Computation
 
-\[
+$$
 \hat{V}_t = \sum_j \hat{h}_{t,j} \Delta x \Delta y
-\]
+$$
 
 The physics residual penalizes deviations from the continuity equation, ensuring:
 
